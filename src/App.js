@@ -1,6 +1,6 @@
-import React from 'react';
-import './App.css';
-import Investors from './Investors'
+import React from "react";
+import "./App.css";
+import Investors from "./components/Investors";
 
 function App() {
   return (

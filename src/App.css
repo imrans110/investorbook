@@ -36,3 +36,9 @@
     transform: rotate(360deg);
   }
 }
+
+@font-face {
+  font-family: "Agenda";
+  src: local("Agenda"),
+    url(./assets/fonts/Agenda/Agenda_Medium.otf) format("opentype");
+}
