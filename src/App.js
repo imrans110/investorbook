@@ -1,12 +1,20 @@
-import React from 'react';
-import './App.css';
-import Investors from './Investors'
+import React from "react";
+import { Switch, Route } from "react-router-dom";
+import { ThemeProvider } from "styled-components";
+
+import "./App.css";
+
+import Dashboard from "./views/Dashboard";
+import theme from "../src/utils/theme";
 
 function App() {
   return (
-    <div className="App">
-      <Investors />
-    </div>
+    <ThemeProvider theme={theme}>
+      <Switch>
+        <Route exact path="/" component={Dashboard} />
+        <Route />
+      </Switch>
+    </ThemeProvider>
   );
 }
 
