@@ -1,8 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { BrowserRouter } from "react-router-dom";
+
 import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
+import "semantic-ui-css/semantic.min.css";
 
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 
@@ -12,11 +15,11 @@ const client = new ApolloClient({
 });
 
 ReactDOM.render(
-  <React.StrictMode>
-    <ApolloProvider client={client}>
+  <ApolloProvider client={client}>
+    <BrowserRouter>
       <App />
-    </ApolloProvider>
-  </React.StrictMode>,
+    </BrowserRouter>
+  </ApolloProvider>,
   document.getElementById("root")
 );
 
