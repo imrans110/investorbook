@@ -5,8 +5,8 @@ import DataTable from "../DataTable";
 import {
   PrimaryButton,
   ActionContainer,
-  StyedHeader,
-  StyledIcon,
+  StyledHeader,
+  SearchIcon,
   HeaderContainer,
   StyledTabContentContainer,
 } from "../../styles/common";
@@ -19,10 +19,10 @@ const CompaniesShell = ({ children }) => {
     <StyledTabContentContainer>
       <HeaderContainer>
         <ActionContainer>
-          <StyedHeader>Companies</StyedHeader>
+          <StyledHeader>Companies</StyledHeader>
           <PrimaryButton inverted>Add Company</PrimaryButton>
         </ActionContainer>
-        <StyledIcon name="search" />
+        <SearchIcon name="search" />
       </HeaderContainer>
       {children}
     </StyledTabContentContainer>

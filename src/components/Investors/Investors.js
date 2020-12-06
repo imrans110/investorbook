@@ -5,8 +5,8 @@ import DataTable from "../DataTable";
 import {
   PrimaryButton,
   ActionContainer,
-  StyedHeader,
-  StyledIcon,
+  StyledHeader,
+  SearchIcon,
   HeaderContainer,
   StyledTabContentContainer,
 } from "../../styles/common";
@@ -19,10 +19,10 @@ const InvestorsShell = ({ children }) => {
     <StyledTabContentContainer>
       <HeaderContainer>
         <ActionContainer>
-          <StyedHeader>Investors</StyedHeader>
+          <StyledHeader>Investors</StyledHeader>
           <PrimaryButton inverted>Add Investor</PrimaryButton>
         </ActionContainer>
-        <StyledIcon name="search" />
+        <SearchIcon name="search" />
       </HeaderContainer>
       {children}
     </StyledTabContentContainer>
@@ -70,6 +70,7 @@ const Investors = () => {
         headerCells={["NAME", "INVESTMENTS"]}
         paginate={paginate}
         setPaginate={setPaginate}
+        tableType="INVESTORS"
       />
     </InvestorsShell>
   );

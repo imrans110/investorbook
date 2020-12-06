@@ -41,3 +41,15 @@ export const normalizeCompanies = (data) => {
     };
   }
 };
+
+export const normalizeInvestorDetails = ({ investor }) => {
+  const investorDetails = investor[0].investments.map((item) => {
+    const data = {
+      amount: item.amount,
+      companyId: item.company.id,
+      companyName: item.company.name,
+    };
+    return data;
+  });
+  return investorDetails;
+};
