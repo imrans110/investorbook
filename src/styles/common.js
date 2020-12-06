@@ -1,11 +1,18 @@
 import styled from "styled-components";
 import { Button, Icon, Container, Table, Header } from "semantic-ui-react";
 
+import { omitProps } from "../utils/helper";
+
 export const PrimaryButton = styled(Button)`
   color: ${(props) => props.theme.primary} !important;
   font-weight: normal !important;
   &&& {
     box-shadow: 0 0 0 1.4px ${(props) => props.theme.primary} inset !important;
+  }
+
+  button:focus {
+    box-shadow: 0 0 0 1.4px ${(props) => props.theme.primary} inset !important;
+    color: black;
   }
 
   &:hover {
@@ -14,7 +21,7 @@ export const PrimaryButton = styled(Button)`
   }
 `;
 
-export const StyedHeader = styled.div`
+export const StyledHeader = styled.div`
   font-size: 28px;
   font-style: normal;
   font-weight: 500;
@@ -32,13 +39,13 @@ export const ActionContainer = styled.div`
   }
 `;
 
-export const StyledIcon = styled(Icon)`
+export const SearchIcon = styled(Icon)`
   font-family: Icons !important;
   float: right;
   cursor: pointer;
 `;
 
-export const StyledIconArrow = styled(Icon)`
+export const StyledIcon = styled(Icon)`
   font-family: Icons !important;
   cursor: pointer;
 `;
@@ -54,8 +61,10 @@ export const TableContainer = styled(Container)`
   width: 100% !important;
 `;
 
-export const TableCell = styled(Table.Cell)`
+export const TableCell = styled(omitProps(Table.Cell, ["tableType"]))`
   width: 25% !important;
+  cursor: ${(props) =>
+    props.tableType === "INVESTORS" ? "pointer" : "default"};
 `;
 
 export const HeaderContent = styled(Header.Content)`

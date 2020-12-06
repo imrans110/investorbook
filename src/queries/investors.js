@@ -21,3 +21,27 @@ export const GET_INVESTORS = gql`
     }
   }
 `;
+
+export const GET_INVESTOR = gql`
+  query MyQuery($id: Int!) {
+    investor(where: { id: { _eq: $id } }) {
+      name
+      photo_large
+      id
+      investments {
+        amount
+        company {
+          name
+          id
+        }
+      }
+      investments_aggregate {
+        aggregate {
+          sum {
+            amount
+          }
+        }
+      }
+    }
+  }
+`;
