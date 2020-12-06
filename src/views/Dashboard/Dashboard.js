@@ -37,4 +37,6 @@ export default Dashboard;
 
 const TabPane = styled(Tab.Pane)`
   min-height: 300px !important;
+  border: 0 !important;
+  box-shadow: none !important;
 `;

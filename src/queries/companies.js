@@ -18,3 +18,12 @@ export const GET_Companies = gql`
     }
   }
 `;
+
+export const GET_Companies_Lite = gql`
+  query MyQuery($limit: Int!, $offset: Int!) {
+    company(limit: $limit, offset: $offset) {
+      name
+      id
+    }
+  }
+`;

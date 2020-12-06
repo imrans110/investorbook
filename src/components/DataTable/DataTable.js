@@ -1,13 +1,14 @@
 import React from "react";
 import { Header, Image, Table, Dropdown } from "semantic-ui-react";
 import styled from "styled-components";
+import { useHistory } from "react-router-dom";
 
 import {
   TableContainer,
   TableCell,
   HeaderContent,
   StyledParagraph,
-  StyledIconArrow,
+  StyledIcon,
 } from "../../styles/common";
 import { getNumberLocale } from "../../utils/helper";
 import { PAGINATION_DEFAULT_OPTIONS } from "../../utils/constants";
@@ -17,7 +18,10 @@ const DataTable = ({
   data: { data, totalCount },
   paginate,
   setPaginate,
+  tableType,
 }) => {
+  const history = useHistory();
+
   const handleNextPage = () => {
     setPaginate({ ...paginate, offset: paginate.offset + paginate.limit });
   };
@@ -33,7 +37,13 @@ const DataTable = ({
   };
 
   const handlePerPage = (ev, data) => {
-    console.log({ data });
+    setPaginate((prevState) => ({ ...prevState, limit: data.value }));
+  };
+
+  const handleCellClick = (id) => () => {
+    if (tableType === "INVESTORS") {
+      history.push(`/investors/${id}`);
+    }
   };
 
   return (
@@ -52,7 +62,11 @@ const DataTable = ({
         <Table.Body>
           {data.map((item) => (
             <Table.Row key={item.id}>
-              <TableCell collapsing>
+              <TableCell
+                tableType={tableType}
+                onClick={handleCellClick(item.id)}
+                collapsing
+              >
                 <Header as="h4" image>
                   {item.thumbnail ? (
                     <Image src={item.thumbnail} circular size="mini" />
@@ -78,24 +92,21 @@ const DataTable = ({
                 <StyledDropdown
                   options={PAGINATION_DEFAULT_OPTIONS}
                   inline
-                  defaultValue="6"
-                  onClick={handlePerPage}
+                  defaultValue={paginate.limit}
+                  onChange={handlePerPage}
                 />
-                &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
                 <StyledSpan>
                   {getNumberLocale(paginate.offset + 1)} -
-                  {getNumberLocale(paginate.offset + paginate.limit)}
-                  &nbsp; of &nbsp;
+                  {getNumberLocale(paginate.offset + paginate.limit)} of{" "}
                   {getNumberLocale(totalCount)}
                 </StyledSpan>
-                &nbsp;&nbsp;&nbsp;
-                <StyledIconArrow
+                <StyledIcon
                   disabled={false}
                   onClick={handlePrevPage}
                   name="chevron left"
                 />
                 &nbsp;
-                <StyledIconArrow
+                <StyledIcon
                   disabled={false}
                   onClick={handleNextPage}
                   name="chevron right"
@@ -128,4 +139,6 @@ const StyledDropdown = styled(Dropdown)`
 
 const StyledSpan = styled.span`
   font-weight: 500 !important;
+  margin-left: 10px;
+  margin-right: 10px;
 `;
