@@ -4,7 +4,7 @@
 
 You can view a live demo of the webclient at:
 
-https://investorbook-dashboard.netlify.app/
+https://investorbook-syed.netlify.app/
 
 ## Postgress Access
 
