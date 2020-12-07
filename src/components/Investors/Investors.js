@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useQuery } from "@apollo/client";
+import { Input } from "semantic-ui-react";
 
 import DataTable from "../DataTable";
 import {
@@ -14,7 +15,7 @@ import Loader from "../Shared/Loader";
 import { GET_INVESTORS } from "../../queries/investors";
 import { normalizeInvestors } from "../../utils/normalizeQueryResponse";
 
-const InvestorsShell = ({ children }) => {
+const InvestorsShell = ({ children, query, onSearchInputChange }) => {
   return (
     <StyledTabContentContainer>
       <HeaderContainer>
@@ -22,7 +23,10 @@ const InvestorsShell = ({ children }) => {
           <StyledHeader>Investors</StyledHeader>
           <PrimaryButton inverted>Add Investor</PrimaryButton>
         </ActionContainer>
-        <SearchIcon name="search" />
+        <Input icon placeholder="Search Investors">
+          <input value={query} onChange={onSearchInputChange} />
+          <SearchIcon name="search" />
+        </Input>
       </HeaderContainer>
       {children}
     </StyledTabContentContainer>
@@ -30,48 +34,62 @@ const InvestorsShell = ({ children }) => {
 };
 
 const Investors = () => {
+  const [query, setQuery] = useState("");
   const [paginate, setPaginate] = useState({
     offset: 0,
     limit: 6,
     totalCount: null,
   });
 
+  const gquery = { offset: paginate.offset, limit: paginate.limit };
+
+  if (query?.length) {
+    gquery.where = {
+      name: { _like: query },
+    };
+  }
+
   const { data, loading, error } = useQuery(GET_INVESTORS, {
-    variables: {
-      offset: paginate.offset,
-      limit: paginate.limit,
-    },
+    variables: gquery,
   });
 
-  if (loading) {
-    return (
-      <InvestorsShell>
-        <Loader />
-      </InvestorsShell>
-    );
-  }
-
-  if (error) {
-    return (
-      <InvestorsShell>
-        Error fetching Investors. Please try again
-      </InvestorsShell>
-    );
-  }
-
-  if (data.investor.length === 0) {
-    return <InvestorsShell>No Investors found</InvestorsShell>;
-  }
+  const onSearchInputChange = (e) => {
+    setPaginate({
+      offset: 0,
+      limit: 6,
+      totalCount: null,
+    });
+    setQuery(e.target.value);
+  };
 
   return (
-    <InvestorsShell>
-      <DataTable
-        data={normalizeInvestors(data)}
-        headerCells={["NAME", "INVESTMENTS"]}
-        paginate={paginate}
-        setPaginate={setPaginate}
-        tableType="INVESTORS"
-      />
+    <InvestorsShell query={query} onSearchInputChange={onSearchInputChange}>
+      {(() => {
+        if (loading) {
+          return (
+            <div>
+              <Loader />
+            </div>
+          );
+        }
+
+        if (error) {
+          return <div> Error fetching Investors. Please try again </div>;
+        }
+
+        if (data.investor.length === 0) {
+          return <div>No Investors found</div>;
+        }
+        return (
+          <DataTable
+            data={normalizeInvestors(data)}
+            headerCells={["NAME", "INVESTMENTS"]}
+            paginate={paginate}
+            setPaginate={setPaginate}
+            tableType="INVESTORS"
+          />
+        );
+      })()}
     </InvestorsShell>
   );
 };
