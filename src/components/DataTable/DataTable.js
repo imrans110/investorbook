@@ -9,6 +9,7 @@ import {
   HeaderContent,
   StyledParagraph,
   StyledIcon,
+  TableRow,
 } from "../../styles/common";
 import { getNumberLocale } from "../../utils/helper";
 import { PAGINATION_DEFAULT_OPTIONS } from "../../utils/constants";
@@ -61,15 +62,15 @@ const DataTable = ({
 
         <Table.Body>
           {data.map((item) => (
-            <Table.Row key={item.id}>
-              <TableCell
-                tableType={tableType}
-                onClick={handleCellClick(item.id)}
-                collapsing
-              >
+            <TableRow
+              tableType={tableType}
+              onClick={handleCellClick(item.id)}
+              key={item.id}
+            >
+              <TableCell collapsing>
                 <Header as="h4" image>
                   {item.thumbnail ? (
-                    <Image src={item.thumbnail} circular size="mini" />
+                    <Image src={item.thumbnail} circular size="large" />
                   ) : null}
                   <HeaderContent>{item.name}</HeaderContent>
                 </Header>
@@ -81,7 +82,7 @@ const DataTable = ({
                   )}
                 </StyledParagraph>
               </Table.Cell>
-            </Table.Row>
+            </TableRow>
           ))}
         </Table.Body>
         <Table.Footer>
@@ -101,13 +102,13 @@ const DataTable = ({
                   {getNumberLocale(totalCount)}
                 </StyledSpan>
                 <StyledIcon
-                  disabled={false}
+                  disabled={paginate.offset === 0}
                   onClick={handlePrevPage}
                   name="chevron left"
                 />
                 &nbsp;
                 <StyledIcon
-                  disabled={false}
+                  disabled={paginate.offset + paginate.limit >= totalCount}
                   onClick={handleNextPage}
                   name="chevron right"
                 />
