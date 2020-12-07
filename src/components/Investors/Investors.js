@@ -14,14 +14,21 @@ import {
 import Loader from "../Shared/Loader";
 import { GET_INVESTORS } from "../../queries/investors";
 import { normalizeInvestors } from "../../utils/normalizeQueryResponse";
+import AddInvestorModal from "../AddInvestorModal";
 
 const InvestorsShell = ({ children, query, onSearchInputChange }) => {
+  const [investorModalOpen, setInvestorModalOpen] = useState(false);
+
   return (
     <StyledTabContentContainer>
       <HeaderContainer>
         <ActionContainer>
           <StyledHeader>Investors</StyledHeader>
-          <PrimaryButton inverted>Add Investor</PrimaryButton>
+          <AddInvestorModal
+            open={investorModalOpen}
+            setOpen={setInvestorModalOpen}
+            trigger={<PrimaryButton inverted>Add Investor</PrimaryButton>}
+          />
         </ActionContainer>
         <Input icon placeholder="Search Investors">
           <input value={query} onChange={onSearchInputChange} />

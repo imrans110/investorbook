@@ -1,34 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import { Button, Header, Input, Modal, Form, Select } from "semantic-ui-react";
-import { useQuery } from "@apollo/client";
+import { Button, Header, Input, Modal, Form } from "semantic-ui-react";
 
-import { GET_Companies_Lite } from "../../queries/companies";
-import Loader from "../Shared/Loader";
-
-const sanitizeResponse = ({ company }) => {
-  const data = company.map((item) => {
-    const option = {
-      key: item.id,
-      value: item.id,
-      text: item.name,
-    };
-    return option;
-  });
-  return data;
-};
-
-const AddInvestmentModal = ({ trigger, open, setOpen }) => {
-  const { data, loading } = useQuery(GET_Companies_Lite, {
-    variables: {
-      offset: 0,
-      limit: 25,
-    },
-  });
-
-  if (loading) {
-    return <Loader />;
-  }
+const AddInvestorModal = ({ trigger, open, setOpen }) => {
   return (
     <StyledModal
       onClose={() => setOpen(false)}
@@ -38,29 +12,23 @@ const AddInvestmentModal = ({ trigger, open, setOpen }) => {
       trigger={trigger}
     >
       <Header>
-        Add Investments
+        Add Investor
         <Header.Subheader>
-          Please Enter the Details of the Investment.
+          Please Enter the Details of the Investor.
         </Header.Subheader>
       </Header>
       <Modal.Content>
         <Form onSubmit={() => setOpen(false)}>
           <Form.Field>
-            <StyledSelect
-              placeholder="Select Company"
-              options={sanitizeResponse(data)}
-            />
-          </Form.Field>
-          <Form.Field>
             <StyledInput
               required
-              type="number"
-              placeholder="Investment Amount"
+              type="text"
+              placeholder="Enter Investor Name"
             />
           </Form.Field>
           <FormAction>
             <CancelButton onClick={() => setOpen(false)}>Cancel</CancelButton>
-            <AddButton type="submit">Add Company</AddButton>
+            <AddButton type="submit">Add Investor</AddButton>
           </FormAction>
         </Form>
       </Modal.Content>
@@ -68,7 +36,7 @@ const AddInvestmentModal = ({ trigger, open, setOpen }) => {
   );
 };
 
-export default AddInvestmentModal;
+export default AddInvestorModal;
 
 const StyledInput = styled(Input)`
   & input {
@@ -76,12 +44,6 @@ const StyledInput = styled(Input)`
     border-bottom: 1.2px solid black !important;
     border-radius: 0 !important;
   }
-`;
-
-const StyledSelect = styled(Select)`
-  border: 0 !important;
-  border-bottom: 1.2px solid black !important;
-  border-radius: 0 !important;
 `;
 
 const FormAction = styled.div`

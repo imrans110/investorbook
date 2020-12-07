@@ -63,8 +63,6 @@ export const TableContainer = styled(Container)`
 
 export const TableCell = styled(omitProps(Table.Cell, ["tableType"]))`
   width: 25% !important;
-  cursor: ${(props) =>
-    props.tableType === "INVESTORS" ? "pointer" : "default"};
 `;
 
 export const HeaderContent = styled(Header.Content)`
@@ -87,4 +85,13 @@ export const StyledContainer = styled(Container)`
 
 export const StyledTabContentContainer = styled(Container)`
   width: 100% !important;
+`;
+
+export const TableRow = styled(omitProps(Table.Row, ["tableType"]))`
+  cursor: ${(props) =>
+    props.tableType === "INVESTORS" ? "pointer" : "default"};
+
+  &: hover {
+    background-color: rgb(0 0 255 / 4%);
+  }
 `;

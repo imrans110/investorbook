@@ -14,14 +14,21 @@ import {
 import Loader from "../Shared/Loader";
 import { GET_Companies } from "../../queries/companies";
 import { normalizeCompanies } from "../../utils/normalizeQueryResponse";
+import AddCompanyModal from "../AddCompanyModal";
 
 const CompaniesShell = ({ children, query, onSearchInputChange }) => {
+  const [companyModalOpen, setCompanyModalOpen] = useState(false);
+
   return (
     <StyledTabContentContainer>
       <HeaderContainer>
         <ActionContainer>
           <StyledHeader>Companies</StyledHeader>
-          <PrimaryButton inverted>Add Company</PrimaryButton>
+          <AddCompanyModal
+            open={companyModalOpen}
+            setOpen={setCompanyModalOpen}
+            trigger={<PrimaryButton inverted>Add Company</PrimaryButton>}
+          />
         </ActionContainer>
         <Input icon placeholder="Search Companies">
           <input value={query} onChange={onSearchInputChange} />
