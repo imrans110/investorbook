@@ -24,7 +24,7 @@ export const GET_INVESTORS = gql`
 
 export const GET_INVESTOR = gql`
   query MyQuery($id: Int!) {
-    investor(where: { id: { _eq: $id } }) {
+    investor_by_pk(id: $id) {
       name
       photo_large
       id

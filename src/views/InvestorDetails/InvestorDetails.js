@@ -36,7 +36,7 @@ const InvestorDetails = ({ match, history }) => {
     );
   }
 
-  if (data.investor.length === 0) {
+  if (data.investor_by_pk.length === 0) {
     return <AppShell>No Investor found</AppShell>;
   }
 
@@ -51,17 +51,22 @@ const InvestorDetails = ({ match, history }) => {
           <Grid.Column mobile={16} computer={2}>
             <UserAction>
               <StyledIcon onClick={goBack} name="angle left" size="big" />
-              <Image src={data.investor[0].photo_large} circular size="tiny" />
+              <Image
+                src={data.investor_by_pk.photo_large}
+                circular
+                size="large"
+              />
             </UserAction>
           </Grid.Column>
           <Grid.Column mobile={16} computer={14}>
             <HeaderContainer>
               <div>
-                <StyledHeader as="h2">{data.investor[0].name}</StyledHeader>
+                <StyledHeader as="h2">{data.investor_by_pk.name}</StyledHeader>
                 <Header.Subheader style={{ marginTop: "0px" }}>
                   Total Amount Invested: $
                   {getNumberLocale(
-                    data.investor[0].investments_aggregate.aggregate.sum.amount
+                    data.investor_by_pk.investments_aggregate.aggregate.sum
+                      .amount
                   )}
                 </Header.Subheader>
               </div>
