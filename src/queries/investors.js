@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
 export const GET_INVESTORS = gql`
-  query MyQuery($limit: Int!, $offset: Int!) {
-    investor(limit: $limit, offset: $offset) {
+  query MyQuery($where: investor_bool_exp, $limit: Int!, $offset: Int!) {
+    investor(where: $where, limit: $limit, offset: $offset) {
       name
       id
       photo_thumbnail
@@ -14,7 +14,7 @@ export const GET_INVESTORS = gql`
       }
     }
 
-    investor_aggregate {
+    investor_aggregate(where: $where) {
       aggregate {
         count
       }

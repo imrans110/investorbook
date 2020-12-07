@@ -101,13 +101,13 @@ const DataTable = ({
                   {getNumberLocale(totalCount)}
                 </StyledSpan>
                 <StyledIcon
-                  disabled={false}
+                  disabled={paginate.offset === 0}
                   onClick={handlePrevPage}
                   name="chevron left"
                 />
                 &nbsp;
                 <StyledIcon
-                  disabled={false}
+                  disabled={paginate.offset + paginate.limit >= totalCount}
                   onClick={handleNextPage}
                   name="chevron right"
                 />
