@@ -53,7 +53,16 @@ export const StyledIcon = styled(Icon)`
 export const HeaderContainer = styled.div`
   display: flex;
   align-items: center;
+
   justify-content: space-between;
+
+  @media (max-width: 768px) {
+    flex-flow: column-reverse wrap !important;
+    min-height: 90px !important;
+    & > * {
+      flex-basis: 50% !important;
+    }
+  }
 `;
 
 export const TableContainer = styled(Container)`
