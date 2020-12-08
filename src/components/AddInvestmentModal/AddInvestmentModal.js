@@ -80,7 +80,7 @@ const AddInvestmentModal = ({ trigger, open, setOpen, investor_id }) => {
         </Header.Subheader>
       </Header>
       <Modal.Content>
-        <Form loading={loading}>
+        <Form>
           <Form.Field>
             <StyledSelect
               placeholder="Select Company"
@@ -101,7 +101,9 @@ const AddInvestmentModal = ({ trigger, open, setOpen, investor_id }) => {
           </Form.Field>
           <FormAction>
             <CancelButton onClick={() => setOpen(false)}>Cancel</CancelButton>
-            <AddButton onClick={handleSubmit}>Add Company</AddButton>
+            <AddButton disabled={loading} onClick={handleSubmit}>
+              Add Company
+            </AddButton>
           </FormAction>
         </Form>
       </Modal.Content>
