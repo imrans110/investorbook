@@ -45,3 +45,30 @@ export const GET_INVESTOR = gql`
     }
   }
 `;
+
+export const ADD_Investor = gql`
+  mutation MyMutation($name: String!) {
+    insert_investor_one(object: { name: $name }) {
+      id
+      name
+    }
+  }
+`;
+
+export const Add_Investments = gql`
+  mutation MyMutation(
+    $amount: numeric!
+    $company_id: Int!
+    $investor_id: Int!
+  ) {
+    insert_investment_one(
+      object: {
+        amount: $amount
+        company_id: $company_id
+        investor_id: $investor_id
+      }
+    ) {
+      id
+    }
+  }
+`;

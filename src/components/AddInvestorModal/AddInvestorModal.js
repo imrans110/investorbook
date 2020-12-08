@@ -1,8 +1,40 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Button, Header, Input, Modal, Form } from "semantic-ui-react";
+import { useMutation } from "@apollo/client";
+import { toast } from "react-toastify";
+
+import { ADD_Investor } from "../../queries/investors";
 
 const AddInvestorModal = ({ trigger, open, setOpen }) => {
+  const [form, setForm] = useState({ name: "" });
+  const [loading, setLoading] = useState(false);
+
+  const [addInvestor] = useMutation(ADD_Investor, {
+    onCompleted({ insert_investor_one }) {
+      toast.success(
+        `New investor [${insert_investor_one.name}] has been added successfully`
+      );
+      setOpen(false);
+      setLoading(false);
+    },
+    onError(err) {
+      toast.error(err.message);
+      setOpen(false);
+      setLoading(false);
+    },
+  });
+
+  const handleChange = (e, { value, name }) => {
+    e.preventDefault();
+    setForm((prevState) => ({ ...prevState, [name]: value }));
+  };
+
+  const handleSubmit = () => {
+    setLoading(true);
+    addInvestor({ variables: { name: form.name } });
+  };
+
   return (
     <StyledModal
       onClose={() => setOpen(false)}
@@ -18,17 +50,20 @@ const AddInvestorModal = ({ trigger, open, setOpen }) => {
         </Header.Subheader>
       </Header>
       <Modal.Content>
-        <Form onSubmit={() => setOpen(false)}>
-          <Form.Field>
-            <StyledInput
-              required
-              type="text"
-              placeholder="Enter Investor Name"
-            />
-          </Form.Field>
+        <Form loading={loading}>
+          <Form.Field
+            name="name"
+            onChange={handleChange}
+            control={StyledInput}
+            placeholder="Enter Investor Name"
+            required
+          />
+
           <FormAction>
             <CancelButton onClick={() => setOpen(false)}>Cancel</CancelButton>
-            <AddButton type="submit">Add Investor</AddButton>
+            <AddButton disabled={loading} onClick={handleSubmit}>
+              Add Company
+            </AddButton>
           </FormAction>
         </Form>
       </Modal.Content>
