@@ -84,6 +84,7 @@ const InvestorDetails = ({ match, history }) => {
             <TableHeader>
               <TableHeading>Investments</TableHeading>
               <AddInvestmentModal
+                investor_id={data.investor_by_pk.id}
                 open={investmentModalOpen}
                 setOpen={setInvestmentModalOpen}
                 trigger={
