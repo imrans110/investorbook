@@ -56,10 +56,6 @@ const AddInvestmentModal = ({ trigger, open, setOpen, investor_id }) => {
     setForm((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  const handleSelectChange = (e, data) => {
-    console.log({ data });
-  };
-
   const handleSubmit = () => {
     setLoading(true);
     addInvestment({ variables: form });

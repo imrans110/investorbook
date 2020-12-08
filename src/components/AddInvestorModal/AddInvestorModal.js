@@ -62,7 +62,7 @@ const AddInvestorModal = ({ trigger, open, setOpen }) => {
           <FormAction>
             <CancelButton onClick={() => setOpen(false)}>Cancel</CancelButton>
             <AddButton disabled={loading} onClick={handleSubmit}>
-              Add Company
+              Add Investor
             </AddButton>
           </FormAction>
         </Form>
