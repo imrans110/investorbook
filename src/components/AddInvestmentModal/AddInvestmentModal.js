@@ -1,13 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Button, Header, Input, Modal, Form, Select } from "semantic-ui-react";
-import { useQuery } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
+import { toast } from "react-toastify";
 
 import { GET_Companies_Lite } from "../../queries/companies";
+import { Add_Investments } from "../../queries/investors";
+
 import Loader from "../Shared/Loader";
 
 const sanitizeResponse = ({ company }) => {
   const data = company.map((item) => {
+    console.log();
     const option = {
       key: item.id,
       value: item.id,
@@ -18,17 +22,53 @@ const sanitizeResponse = ({ company }) => {
   return data;
 };
 
-const AddInvestmentModal = ({ trigger, open, setOpen }) => {
-  const { data, loading } = useQuery(GET_Companies_Lite, {
+const AddInvestmentModal = ({ trigger, open, setOpen, investor_id }) => {
+  const [form, setForm] = useState({
+    amount: null,
+    company_id: null,
+    investor_id,
+  });
+  const [loading, setLoading] = useState(false);
+
+  const { data, loading: loadingCompanies } = useQuery(GET_Companies_Lite, {
     variables: {
       offset: 0,
       limit: 25,
     },
   });
 
-  if (loading) {
+  const [addInvestment] = useMutation(Add_Investments, {
+    onCompleted({ insert_investment_one }) {
+      toast.success(`New investment has been added successfully`);
+      setOpen(false);
+      setLoading(false);
+    },
+    onError(err) {
+      toast.error(err.message);
+      setOpen(false);
+      setLoading(false);
+    },
+  });
+
+  const handleChange = (e, { value, name }) => {
+    e.preventDefault();
+    console.log({ name, value });
+    setForm((prevState) => ({ ...prevState, [name]: value }));
+  };
+
+  const handleSelectChange = (e, data) => {
+    console.log({ data });
+  };
+
+  const handleSubmit = () => {
+    setLoading(true);
+    addInvestment({ variables: form });
+  };
+
+  if (loadingCompanies) {
     return <Loader />;
   }
+
   return (
     <StyledModal
       onClose={() => setOpen(false)}
@@ -44,23 +84,28 @@ const AddInvestmentModal = ({ trigger, open, setOpen }) => {
         </Header.Subheader>
       </Header>
       <Modal.Content>
-        <Form onSubmit={() => setOpen(false)}>
+        <Form loading={loading}>
           <Form.Field>
             <StyledSelect
               placeholder="Select Company"
+              search
+              onChange={handleChange}
               options={sanitizeResponse(data)}
+              name="company_id"
             />
           </Form.Field>
           <Form.Field>
             <StyledInput
               required
+              name="amount"
               type="number"
+              onChange={handleChange}
               placeholder="Investment Amount"
             />
           </Form.Field>
           <FormAction>
             <CancelButton onClick={() => setOpen(false)}>Cancel</CancelButton>
-            <AddButton type="submit">Add Company</AddButton>
+            <AddButton onClick={handleSubmit}>Add Company</AddButton>
           </FormAction>
         </Form>
       </Modal.Content>

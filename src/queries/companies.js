@@ -27,3 +27,12 @@ export const GET_Companies_Lite = gql`
     }
   }
 `;
+
+export const ADD_Company = gql`
+  mutation MyMutation($name: String!) {
+    insert_company_one(object: { name: $name }) {
+      id
+      name
+    }
+  }
+`;
